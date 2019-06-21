@@ -18,7 +18,10 @@ router.post('/',
     resolusiController.create)
 router.patch('/:id', authMiddleware.Authentication, 
                     authMiddleware.Authorization, 
+                    multer.single('image'),
+                    gcsMiddlewares.sendUploadToGCS,
                     resolusiController.edit)
+                    
 router.delete('/:id', authMiddleware.Authentication, 
                     authMiddleware.Authorization, 
                     resolusiController.delete)
