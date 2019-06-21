@@ -1,0 +1,38 @@
+// require('dotenv').config()
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    require('dotenv').config();
+}
+
+const express = require('express')
+const app = express()
+const port = 3000
+const routes = require('./routes/')
+const mongoose = require('mongoose')
+const cors = require('cors')
+
+// change name of the database
+
+mongoose.connect(process.env.DATABASE_NAME, {useNewUrlParser : true})
+app.use(express.urlencoded({ extended: false }))
+app.use(cors())
+app.use(express.json())
+var db = mongoose.connection
+db.on('error', console.error.bind(console, 'connection error:'))
+db.once('open', function() {
+    console.log('mongoose connected!')
+})
+
+app.use('/', routes)
+
+app.use((err, req, res, next) => {
+    console.log(err)
+    console.log(err.name)
+    if(err.name === 'ValidationError'){
+        res.status(400).json(err)
+    }
+    res.status(err.code ||500).json(err.message || {
+        msg : 'internal server error'
+    })
+})
+
+app.listen(port, () => console.log(`Example app listening on port port!`))
