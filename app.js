@@ -13,7 +13,6 @@ const cors = require('cors')
 // change name of the database
 
 mongoose.connect(process.env.DATABASE_NAME, {useNewUrlParser : true})
-
 app.use(express.urlencoded({ extended: false }))
 app.use(cors())
 app.use(express.json())
@@ -26,6 +25,7 @@ db.once('open', function() {
 app.use('/', routes)
 
 app.use((err, req, res, next) => {
+    console.log(err)
     console.log(err.name)
     if(err.name === 'ValidationError'){
         res.status(400).json(err)

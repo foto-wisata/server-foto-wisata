@@ -27,7 +27,7 @@ class UserController{
     }
     static login(req, res, next){
         console.log('pasti masuk')
-        User.findOne({email : req.body.email})
+        User.findOne({email : req.body.email}).exec()
         .then(found => {
             console.log('ketemu 1')
             if(found){
@@ -36,7 +36,7 @@ class UserController{
                     let payload = {
                         username : found.username,
                         email : found.email,
-                        id : found.id
+                        id : found._id
                     }
                     let token = generateJWT(payload)
                     res.status(200).json({token, payload})
