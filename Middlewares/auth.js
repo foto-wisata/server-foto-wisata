@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const {Resolusi} = require('../Models/resolusiModel')
+const Resolusi = require('../Models/resolusiModel')
 
 module.exports = {
     Authentication(req, res, next){
@@ -23,10 +23,8 @@ module.exports = {
     
     Authorization(req, res, next){
         Resolusi.findOne({
-            where : {
-                id : req.params.id
-            }
-        })
+            _id : req.params.id
+        }).exec()
         .then(foundResolusi => {
             if(!foundResolusi){
                 throw ({code : 404 , msg : 'resource not found'})

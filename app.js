@@ -30,7 +30,7 @@ app.use((err, req, res, next) => {
     if(err.name === 'ValidationError'){
         res.status(400).json(err)
     }
-    res.status(500).json({
+    res.status(err.code ||500).json(err.message || {
         msg : 'internal server error'
     })
 })

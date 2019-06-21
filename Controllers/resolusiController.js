@@ -11,7 +11,7 @@ class ResolusiController {
                     image: req.file.gcsUrl,
                     user: id
                 })
-                return res.json({
+                return res.status(201).json({
                     id: resolusi._id,
                     description,
                     url: req.file.gcsUrl
@@ -37,6 +37,32 @@ class ResolusiController {
             res.json(resolusi)
         } catch (err) {
             next({code: 500, msg: err.message})
+        }
+    }
+
+    static async edit(req, res, next) {
+        let {id} = req.params
+        let {description, image} = req.body
+
+        try {
+            let resolusi = await Resolusi.findOne({_id: id}).exec()
+            if (description) resolusi.description = description
+            if (image) resolusi.image = image
+            await resolusi.save()
+            res.json({id})
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    static async delete(req, res, next) {
+        let {id} = req.params
+        
+        try {
+            await Resolusi.deleteOne({_id:id}).exec()
+            res.json({id})
+        } catch (err) {
+            next(err)
         }
     }
 }

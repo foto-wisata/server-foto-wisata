@@ -11,11 +11,17 @@ const multer = _multer({
     },
 });
 
-router.post('/create', 
+router.post('/', 
     authMiddleware.Authentication,
     multer.single('image'), 
     gcsMiddlewares.sendUploadToGCS, 
     resolusiController.create)
+router.patch('/:id', authMiddleware.Authentication, 
+                    authMiddleware.Authorization, 
+                    resolusiController.edit)
+router.delete('/:id', authMiddleware.Authentication, 
+                    authMiddleware.Authorization, 
+                    resolusiController.delete)
 
 router.get('/', resolusiController.get)
 router.get('/:id', resolusiController.get)
