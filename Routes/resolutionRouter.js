@@ -21,4 +21,5 @@ router.get('/', resolusiController.get)
 router.get('/:id', resolusiController.get)
 
 
+
 module.exports = router
