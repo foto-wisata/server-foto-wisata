@@ -6,7 +6,7 @@ const {comparePassword, generateJWT} = require('../Helpers/crypt')
 class UserController{
     static create(req, res, next){
         User.findOne({
-                username : req.body.username
+                username : req.body.email
             })
         .then(found => {
             if(!found){

@@ -23,8 +23,17 @@ class ResolusiController {
         next({code:500, msg:'Unable to upload'});
     }
     static async get(req, res, next) {
+        let {id} = req.params
+        console.log(id);
+        
         try {
-            let resolusi = await Resolusi.find().exec()
+            let filter
+            if (id) {
+                filter = {user:id}
+            } else {
+                filter = {}
+            }
+            let resolusi = await Resolusi.find(filter).exec()
             res.json(resolusi)
         } catch (err) {
             next({code: 500, msg: err.message})

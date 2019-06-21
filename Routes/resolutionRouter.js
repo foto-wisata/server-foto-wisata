@@ -17,7 +17,8 @@ router.post('/create',
     gcsMiddlewares.sendUploadToGCS, 
     resolusiController.create)
 
-router.get('/', authMiddleware.Authentication, resolusiController.get)
+router.get('/', resolusiController.get)
+router.get('/:id', resolusiController.get)
 
 
 module.exports = router
